@@ -1,0 +1,568 @@
+/* =========================================================
+   🌿 DermAI — Skin Disease Assistant Stylesheet
+   Author: Tahir Shah
+   Description: Dark-themed, neural-inspired UI with glassmorphism and cyan accents
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   🎨 Base Reset & Global Styles
+   --------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #e3f2fd;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   🌈 Background Animation (Dark Gradient + Faint Neural Grid)
+   --------------------------------------------------------- */
+body {
+  background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Faint neural grid: subtle wireframe lines with cyan tint */
+  background-image:
+    /* Horizontal lines */ linear-gradient(
+      rgba(0, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    /* Vertical lines */
+      linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    /* Diagonal connections for neural feel */
+      linear-gradient(45deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px, 30px 30px, 30px 30px;
+  animation: neuralGridMove 20s linear infinite;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes neuralGridMove {
+  0% {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 50px 50px, 50px 50px, 30px 30px, 30px 30px;
+  }
+}
+
+/* ---------------------------------------------------------
+   🧩 App Layout
+   --------------------------------------------------------- */
+.app-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* ---------------------------------------------------------
+   🧭 Sidebar Navigation (Translucent Dark with Cyan Glow on Hover)
+   --------------------------------------------------------- */
+.sidebar {
+  width: 260px;
+  background: rgba(15, 15, 35, 0.8);
+  backdrop-filter: blur(10px);
+  color: #e3f2fd;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.sidebar:hover {
+  box-shadow: 2px 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.sidebar h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.sidebar h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 30px;
+  color: #bbdefb;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e3f2fd;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sidebar-link:hover {
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.sidebar-link i {
+  font-size: 1.2rem;
+}
+
+.sidebar-link span {
+  font-size: 0.95rem;
+}
+
+.sidebar-link:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+/* ---------------------------------------------------------
+   📄 Main Content Area
+   --------------------------------------------------------- */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.1); /* Subtle overlay for depth */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.header small {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  color: #bbdefb;
+}
+
+/* ---------------------------------------------------------
+   🧱 Cards (Glassmorphism: Semi-transparent, Soft Shadows, Cyan Borders)
+   --------------------------------------------------------- */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 255, 255, 0.1);
+}
+
+.card.hidden {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------
+   📤 Upload Section (Glassmorphism Adaptation)
+   --------------------------------------------------------- */
+.upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.upload-box {
+  border: 2px dashed rgba(0, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  color: #bbdefb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.upload-box:hover {
+  border-color: #00ffff;
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.preview-area img {
+  max-width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+/* ---------------------------------------------------------
+   🧠 Prediction & Info Section (AI Glow Pulse Behind Diagnosis Name)
+   --------------------------------------------------------- */
+.prediction-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(15, 15, 35, 0.8);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  color: #e3f2fd;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.prediction-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  animation: aiGlowPulse 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+.prediction-card .disease-name {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+@keyframes aiGlowPulse {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ---------------------------------------------------------
+   🔘 Buttons (Glowing Gradients, Animated Hover Lift)
+   --------------------------------------------------------- */
+.button {
+  padding: 10px 18px;
+  margin: 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00ffff, #0080ff);
+  color: #000; /* Dark text for contrast on bright gradient */
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.button:hover::before {
+  opacity: 1;
+  animation: shimmer 1.5s infinite;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(0, 255, 255, 0.5);
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%);
+  }
+}
+
+.button-danger {
+  background: linear-gradient(135deg, #ff1744, #d50000);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+}
+
+.button-danger:hover {
+  box-shadow: 0 5px 20px rgba(255, 23, 68, 0.5);
+}
+
+.button-secondary {
+  background: linear-gradient(135deg, #607d8b, #455a64);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(96, 125, 139, 0.3);
+}
+
+.button-secondary:hover {
+  box-shadow: 0 5px 20px rgba(96, 125, 139, 0.5);
+}
+
+/* Align upload action buttons horizontally */
+.upload-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.upload-actions .button {
+  min-width: 140px;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   ⚙️ Loader Animation
+   --------------------------------------------------------- */
+#processingOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+.heart-rate-container {
+  width: 300px;
+  height: 146px;
+}
+
+#heartLine {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  stroke-linecap: round;
+  stroke: #00ffff;
+  animation: heartbeat 1.4s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    stroke-dashoffset: 400;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------
+   💬 Footer
+   --------------------------------------------------------- */
+.footer {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 20px;
+  opacity: 0.7;
+  color: #bbdefb;
+}
+
+/* ---------------------------------------------------------
+   👋 Welcome Screen Animation (Seamless Neural Lines into Dashboard)
+   --------------------------------------------------------- */
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #0f0f23, #0a0a0a);
+  color: #e3f2fd;
+  z-index: 9999;
+  font-family: "Poppins", sans-serif;
+  animation: fadeOut 1s ease forwards;
+  animation-delay: 4.5s;
+  /* Inherit neural grid from body for seamlessness */
+}
+
+#neuralBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  /* Match body::before for continuous animation */
+  background-image: linear-gradient(
+      rgba(0, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px, 30px 30px, 30px 30px;
+  animation: neuralGridMove 20s linear infinite;
+  opacity: 0.5;
+}
+
+.welcome-content {
+  text-align: center;
+  z-index: 2;
+}
+
+.app-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #00ffff;
+  letter-spacing: 1px;
+  animation: fadeInUp 1s ease;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: #bbdefb;
+  opacity: 0.9;
+  margin-top: 0.6rem;
+  animation: fadeInUp 1.4s ease;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+#dashboardSection,
+#historyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+#historyCard {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+#clearHistoryBtn {
+  display: inline-block;
+  width: auto;
+  margin-top: 15px;
+  padding: 10px 20px;
+}
+
+#downloadReportBtn {
+  padding: 10px 18px;
+  margin: 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00ffff, #0080ff);
+  color: #000; /* Dark text for contrast on bright gradient */
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}

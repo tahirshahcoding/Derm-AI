@@ -1,0 +1,24 @@
+# Virtual environment
+venv_new/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Model files
+*.h5
+*.ckpt
+
+# Secrets
+.env
+
+# Data & reports
+/data/*
+/reports/*
+
+# Frontend stuff
+frontend/node_modules/
+
+# OS junk files
+.DS_Store
+Thumbs.db
