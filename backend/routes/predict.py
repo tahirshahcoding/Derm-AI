@@ -5,6 +5,7 @@ from io import BytesIO
 from PIL import Image
 from flask import Blueprint, request, jsonify, current_app
 import tensorflow as tf
+import gdown  # <-- add this line
 from utilities.preprocess import preprocess_image
 
 predict_bp = Blueprint("predict", __name__)
@@ -15,7 +16,25 @@ predict_bp = Blueprint("predict", __name__)
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "models", "skin_cnn.h5")
 LABELS_PATH = os.path.join(os.path.dirname(__file__), "..", "class_labels.json")
 
+# Google Drive model file ID
+DRIVE_FILE_ID = "1xTsnq7F8WFVcmWDXOfFedPPEZ0sHWVeJ"
+DRIVE_URL = f"https://drive.google.com/uc?export=download&id={DRIVE_FILE_ID}"
+
+# ----------------------------
+# Download model if missing
+# ----------------------------
+def ensure_model_exists():
+    if not os.path.exists(MODEL_PATH):
+        os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+        current_app.logger.info("Downloading model from Google Drive...")
+        gdown.download(DRIVE_URL, MODEL_PATH, quiet=False)
+        current_app.logger.info("✅ Model downloaded successfully")
+    else:
+        current_app.logger.info("Model already exists locally")
+
+# ----------------------------
 # Load class labels
+# ----------------------------
 with open(os.path.abspath(LABELS_PATH), "r", encoding="utf-8") as f:
     RAW_CLASS_NAMES = json.load(f)
 
@@ -65,9 +84,11 @@ def pretty(name):
 # Load model once
 # ----------------------------
 _model = None
+
 def get_model():
     global _model
     if _model is None:
+        ensure_model_exists()
         _model = tf.keras.models.load_model(os.path.abspath(MODEL_PATH), compile=False)
         current_app.logger.info("✅ Model loaded successfully")
     return _model
@@ -88,13 +109,11 @@ def predict():
         model = get_model()
         preds = model.predict(x, verbose=0)[0]
 
-        # Top-1
         top_idx = np.argmax(preds)
         raw_name = RAW_CLASS_NAMES[top_idx]
         disease_name = pretty(raw_name)
         confidence = float(preds[top_idx])
 
-        # Top-3 predictions
         top3_idx = preds.argsort()[-3:][::-1]
         top3 = [{"disease": pretty(RAW_CLASS_NAMES[i]), "confidence": float(preds[i])} for i in top3_idx]
 
