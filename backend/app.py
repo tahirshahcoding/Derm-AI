@@ -17,6 +17,11 @@ app.register_blueprint(report_bp, url_prefix="/api/report")
 def home():
     return jsonify({"message": "DermAI backend running"})
 
+# ✅ Health check endpoint for Render
+@app.route("/healthz")
+def health():
+    return "OK", 200
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))  # Render assigns a random port
