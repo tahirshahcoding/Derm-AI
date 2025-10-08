@@ -6,8 +6,7 @@ WORKDIR /app
 
 # Copy requirements and install
 COPY requirements.txt ./
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the project
 COPY . .
@@ -15,5 +14,5 @@ COPY . .
 # Expose the port your Flask app uses
 EXPOSE 5000
 
-# Start the app with gunicorn (updated path)
+# Start the app with gunicorn
 CMD ["gunicorn", "backend.app:app", "-b", "0.0.0.0:5000"]
