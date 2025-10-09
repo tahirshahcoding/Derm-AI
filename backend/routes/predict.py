@@ -6,7 +6,7 @@ from PIL import Image
 from flask import Blueprint, request, jsonify, current_app
 import tensorflow as tf
 import gdown  # <-- add this line
-from utilities.preprocess import preprocess_image
+from backend.utilities.preprocess import preprocess_image
 
 predict_bp = Blueprint("predict", __name__)
 
