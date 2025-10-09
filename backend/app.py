@@ -1,9 +1,9 @@
 # backend/app.py
 from flask import Flask, jsonify
 from flask_cors import CORS
-from routes.predict import predict_bp
-from routes.gemini import gemini_bp
-from routes.report import report_bp
+from backend.routes.predict import predict_bp
+from backend.routes.gemini import gemini_bp
+from backend.routes.report import report_bp
 
 app = Flask(__name__)
 CORS(app)  # allow frontend to call backend
