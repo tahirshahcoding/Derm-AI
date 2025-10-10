@@ -575,7 +575,7 @@ body::before {
 }
 
 /* ---------------------------------------------------------
-   📱 Mobile Responsiveness
+   📱 Mobile Responsiveness (Updated for Loader Centering)
    --------------------------------------------------------- */
 
 /* Tablet and smaller (up to 1024px) */
@@ -651,6 +651,11 @@ body::before {
   .heart-rate-container {
     width: 250px;
     height: 120px;
+    max-width: 90vw; /* Ensure it doesn't exceed viewport width */
+  }
+
+  #processingOverlay {
+    padding: 0; /* Remove any padding to allow full centering */
   }
 }
 
@@ -799,6 +804,15 @@ body::before {
   .heart-rate-container {
     width: 200px;
     height: 100px;
+    max-width: 85vw; /* Responsive width based on viewport */
+    margin: 0 auto; /* Ensure horizontal centering if needed */
+  }
+
+  #processingOverlay {
+    padding: 0;
+    /* Reinforce flex centering for mobile */
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -892,12 +906,14 @@ body::before {
   }
 
   #processingOverlay {
-    padding: 20px; /* Ensure overlay doesn't clip on small screens */
+    padding: 0; /* Ensure no padding interferes with centering */
   }
 
   .heart-rate-container {
     width: 180px;
     height: 90px;
+    max-width: 80vw; /* Scale down further for small screens */
+    margin: 0 auto;
   }
 }
 
@@ -925,5 +941,20 @@ body::before {
   .sidebar-link {
     min-width: 70px;
     font-size: 0.8rem;
+  }
+
+  .heart-rate-container {
+    width: 160px;
+    height: 80px;
+    max-width: 75vw; /* Even smaller for tiny screens */
+    margin: 0 auto;
+  }
+
+  #processingOverlay {
+    /* Extra assurance for centering on very small devices */
+    min-height: 100vh;
+    display: flex !important; /* Override if needed when shown */
+    align-items: center;
+    justify-content: center;
   }
 }
